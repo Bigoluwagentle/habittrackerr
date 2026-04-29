@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Habit Tracker PWA
 
-## Getting Started
+A mobile-first Progressive Web App for tracking daily habits. Built for HNG Internship Stage 3.
 
-First, run the development server:
+## Project Overview
+Users can sign up, log in, create/edit/delete habits, mark habits complete each day, and see their streak. All data lives in localStorage. The app installs as a PWA and works offline after first load.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Setup Instructions
+- Node.js 18+ required
+- Run: `npm install`
+- Run: `npx playwright install chromium`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Run Instructions
+- Development: `npm run dev` then open http://localhost:3000
+- Production: `npm run build` then `npm start`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Test Instructions
+- Unit tests: `npm run test:unit`
+- Integration tests: `npm run test:integration`
+- E2E tests: start dev server first, then `npm run test:e2e`
+- All tests: `npm test`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Local Persistence Structure
+All data is stored in localStorage using three keys:
+- `habit-tracker-users` — array of registered users
+- `habit-tracker-session` — currently logged-in session
+- `habit-tracker-habits` — all habits across all users
 
-## Learn More
+Each habit has: id, userId, name, description, frequency (daily), createdAt, completions (YYYY-MM-DD dates)
 
-To learn more about Next.js, take a look at the following resources:
+## PWA Support
+- `public/manifest.json` — app name, icons, start_url, display mode
+- `public/sw.js` — cache-first service worker, caches app shell on install
+- `public/icons/icon-192.png` and `icon-512.png` — required PWA icons
+- Service worker registered in `src/components/shared/ServiceWorkerRegistration.tsx`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Trade-offs and Limitations
+- Passwords stored in plain text (front-end only, no backend)
+- No session expiry — persists until logout
+- Data does not sync across devices
+- Only daily frequency implemented (per spec)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Test File Map
+| File | Describe Block | What It Verifies |
+|---|---|---|
+| tests/unit/slug.test.ts | getHabitSlug | Slug generation from habit names |
+| tests/unit/validators.test.ts | validateHabitName | Name validation rules |
+| tests/unit/streaks.test.ts | calculateCurrentStreak | Streak calculation logic |
+| tests/unit/habits.test.ts | toggleHabitCompletion | Completion toggle behavior |
+| tests/integration/auth-flow.test.tsx | auth flow | Signup, login, error messages |
+| tests/integration/habit-form.test.tsx | habit form | Create, edit, delete, complete |
+| tests/e2e/app.spec.ts | Habit Tracker app | Full user journeys end-to-end |
