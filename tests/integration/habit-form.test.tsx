@@ -8,10 +8,10 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush, replace: mockPush }),
 }));
 
-import HabitForm from '@/components/habits/HabitForm';
-import HabitCard from '@/components/habits/HabitCard';
-import { saveSession, upsertHabit } from '@/lib/storage';
-import type { Habit } from '@/types/habit';
+import HabitForm from '@/src/components/habits/HabitForm';
+import HabitCard from '@/src/components/habits/HabitCard';
+import { saveSession, upsertHabit } from '@/src/lib/storage';
+import type { Habit } from '@/src/types/habit';
 
 const TODAY = new Date().toISOString().slice(0, 10);
 

@@ -8,9 +8,9 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush, replace: mockPush }),
 }));
 
-import SignupForm from '@/components/auth/SignupForm';
-import LoginForm from '@/components/auth/LoginForm';
-import { addUser, getSession } from '@/lib/storage';
+import SignupForm from '@/src/components/auth/SignupForm';
+import LoginForm from '@/src/components/auth/LoginForm';
+import { addUser, getSession } from '@/src/lib/storage';
 
 beforeEach(() => {
   localStorage.clear();

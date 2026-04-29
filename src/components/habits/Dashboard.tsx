@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Habit } from '@/types/habit';
-import type { Session } from '@/types/auth';
-import { getSession, clearSession, getHabitsForUser, upsertHabit, deleteHabit as removeHabit } from '@/lib/storage';
-import HabitCard from '@/components/habits/HabitCard';
-import HabitForm from '@/components/habits/HabitForm';
+import type { Habit } from '@/src/types/habit';
+import type { Session } from '@/src/types/auth';
+import { getSession, clearSession, getHabitsForUser, upsertHabit, deleteHabit as removeHabit } from '@/src/lib/storage';
+import HabitCard from '@/src/components/habits/HabitCard';
+import HabitForm from '@/src/components/habits/HabitForm';
 
 function generateId(): string {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);

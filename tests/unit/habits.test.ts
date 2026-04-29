@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { toggleHabitCompletion } from '@/lib/habits';
-import type { Habit } from '@/types/habit';
+import { toggleHabitCompletion } from '@/src/lib/habits';
+import type { Habit } from '@/src/types/habit';
 
 const baseHabit: Habit = {
   id: 'habit-1',

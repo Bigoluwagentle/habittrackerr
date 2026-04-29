@@ -2,9 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUserByEmail, saveSession } from '@/lib/storage';
+import { getUserByEmail, addUser, saveSession } from '@/src/lib/storage';
 
-export default function LoginForm() {
+function generateId(): string {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+export default function SignupForm() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,15 +20,29 @@ export default function LoginForm() {
     setError(null);
     setLoading(true);
 
-    const user = getUserByEmail(email.trim());
+    const trimmedEmail = email.trim();
 
-    if (!user || user.password !== password) {
-      setError('Invalid email or password');
+    if (!trimmedEmail || !password) {
+      setError('Email and password are required');
       setLoading(false);
       return;
     }
 
-    saveSession({ userId: user.id, email: user.email });
+    if (getUserByEmail(trimmedEmail)) {
+      setError('User already exists');
+      setLoading(false);
+      return;
+    }
+
+    const newUser = {
+      id: generateId(),
+      email: trimmedEmail,
+      password,
+      createdAt: new Date().toISOString(),
+    };
+
+    addUser(newUser);
+    saveSession({ userId: newUser.id, email: newUser.email });
     router.push('/dashboard');
   }
 
@@ -36,13 +54,13 @@ export default function LoginForm() {
         </div>
       )}
       <div className="space-y-1">
-        <label htmlFor="login-email" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700">
           Email address
         </label>
         <input
-          id="login-email"
+          id="signup-email"
           type="email"
-          data-testid="auth-login-email"
+          data-testid="auth-signup-email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -51,27 +69,27 @@ export default function LoginForm() {
         />
       </div>
       <div className="space-y-1">
-        <label htmlFor="login-password" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700">
           Password
         </label>
         <input
-          id="login-password"
+          id="signup-password"
           type="password"
-          data-testid="auth-login-password"
+          data-testid="auth-signup-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
           className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-gray-900"
-          placeholder="••••••••"
+          placeholder="Create a password"
         />
       </div>
       <button
         type="submit"
-        data-testid="auth-login-submit"
+        data-testid="auth-signup-submit"
         disabled={loading}
         className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-60 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
       >
-        {loading ? 'Signing in…' : 'Sign in'}
+        {loading ? 'Creating account…' : 'Create account'}
       </button>
     </form>
   );

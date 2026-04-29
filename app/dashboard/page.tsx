@@ -1,4 +1,4 @@
-import Dashboard from '@/components/habits/Dashboard';
+import Dashboard from '@/src/components/habits/Dashboard';
 
 export default function DashboardPage() {
   return <Dashboard />;

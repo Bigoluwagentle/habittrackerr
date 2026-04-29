@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import type { Habit } from '@/types/habit';
-import { getHabitSlug } from '@/lib/slug';
-import { calculateCurrentStreak } from '@/lib/streaks';
-import { toggleHabitCompletion } from '@/lib/habits';
+import type { Habit } from '@/src/types/habit';
+import { getHabitSlug } from '@/src/lib/slug';
+import { calculateCurrentStreak } from '@/src/lib/streaks';
+import { toggleHabitCompletion } from '@/src/lib/habits';
 
 interface HabitCardProps {
   habit: Habit;

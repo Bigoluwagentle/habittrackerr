@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration';
+import ServiceWorkerRegistration from '@/src/components/shared/ServiceWorkerRegistration';
 
 export const metadata: Metadata = {
   title: 'Habit Tracker',
